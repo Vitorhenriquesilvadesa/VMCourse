@@ -6,5 +6,5 @@ public enum TokenType {
     Star,
     Slash,
     Number,
-    EndOfFile,
+    EndOfFile, Mark, LeftParen, RightParen,
 }

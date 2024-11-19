@@ -57,6 +57,14 @@ public class Scanner extends CompilationPass<TailFile, ScannedData> {
                 line++;
                 break;
 
+            case '(':
+                makeToken(TokenType.LeftParen);
+                break;
+
+            case ')':
+                makeToken(TokenType.RightParen);
+                break;
+
             case '+':
                 makeToken(TokenType.Plus);
                 break;
@@ -84,7 +92,7 @@ public class Scanner extends CompilationPass<TailFile, ScannedData> {
     }
 
     private void number() {
-        while (isDigit(peek())){
+        while (isDigit(peek())) {
             advance();
         }
 
