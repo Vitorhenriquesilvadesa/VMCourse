@@ -13,4 +13,9 @@ public class LiteralExpressionNode extends ExpressionNode {
     public String toString() {
         return String.format("Literal(%s)", literal.literal());
     }
+
+    @Override
+    public <R> R accept(ExpressionVisitor<R> visitor) {
+        return visitor.visitLiteralExpression(this);
+    }
 }

@@ -1,5 +1,6 @@
 package org.vmcourse;
 
+import org.vmcourse.compiler.interpret.Interpreter;
 import org.vmcourse.compiler.parse.Parser;
 import org.vmcourse.compiler.pipeline.CompilationPipeline;
 import org.vmcourse.compiler.scan.Scanner;
@@ -11,7 +12,8 @@ public class TailScript {
         CompilationPipeline pipeline = new CompilationPipeline();
         TailFile file = new TailFile(args[0]);
         pipeline.insertStage(new Scanner())
-                .insertStage(new Parser());
+                .insertStage(new Parser())
+                .insertStage(new Interpreter());
 
         pipeline.execute(file);
     }

@@ -21,13 +21,13 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
         tokens = input.getTokens();
         expressions = new ArrayList<>();
 
-        while(!isAtEnd()) {
+        while (!isAtEnd()) {
             expressions.add(expression());
         }
 
-        expressions.forEach(System.out::println);
+        // expressions.forEach(System.out::println);
 
-        return new ParsedData();
+        return new ParsedData(expressions);
     }
 
     private ExpressionNode expression() {
@@ -37,7 +37,7 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
     private ExpressionNode term() {
         ExpressionNode left = factor();
 
-        if(match(TokenType.Plus, TokenType.Minus)) {
+        if (match(TokenType.Plus, TokenType.Minus)) {
             Token operator = previous();
             ExpressionNode right = factor();
             return new BinaryExpressionNode(left, operator, right);
@@ -49,7 +49,7 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
     private ExpressionNode factor() {
         ExpressionNode expression = unary();
 
-        while(match(TokenType.Star, TokenType.Slash)) {
+        while (match(TokenType.Star, TokenType.Slash)) {
             Token operator = previous();
             ExpressionNode right = factor();
             expression = new BinaryExpressionNode(expression, operator, right);
@@ -59,7 +59,7 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
     }
 
     private ExpressionNode unary() {
-        if(match(TokenType.Minus, TokenType.Mark)) {
+        if (match(TokenType.Minus, TokenType.Mark)) {
             Token operator = previous();
 
             // Correção de "right = expression()" para "right = unary()"
@@ -71,11 +71,11 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
     }
 
     private ExpressionNode literal() {
-        if(match(TokenType.Number)) {
+        if (match(TokenType.Number)) {
             return new LiteralExpressionNode(previous());
         }
 
-        if(match(TokenType.LeftParen)) {
+        if (match(TokenType.LeftParen)) {
             return grouping();
         }
 
@@ -103,13 +103,13 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
     }
 
     private void consume(TokenType type, String message) {
-        if(!match(type)) {
+        if (!match(type)) {
             throw new TailRuntimeException(message);
         }
     }
 
     private boolean match(TokenType... types) {
-        if(check(types)) {
+        if (check(types)) {
             advance();
             return true;
         }
@@ -118,8 +118,8 @@ public class Parser extends CompilationPass<ScannedData, ParsedData> {
     }
 
     private boolean check(TokenType... types) {
-        for(TokenType type : types) {
-            if(peek().type() == type) {
+        for (TokenType type : types) {
+            if (peek().type() == type) {
                 return true;
             }
         }

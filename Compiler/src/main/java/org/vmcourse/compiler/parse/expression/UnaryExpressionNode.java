@@ -15,4 +15,9 @@ public class UnaryExpressionNode extends ExpressionNode {
     public String toString() {
         return String.format("Unary(%s, %s)", operator.type().name(), expression);
     }
+
+    @Override
+    public <R> R accept(ExpressionVisitor<R> visitor) {
+        return visitor.visitUnaryExpression(this);
+    }
 }

@@ -17,4 +17,9 @@ public class BinaryExpressionNode extends ExpressionNode {
     public String toString() {
         return String.format("Binary(%s, %s, %s)", left, operator.type().name(), right);
     }
+
+    @Override
+    public <R> R accept(ExpressionVisitor<R> visitor) {
+        return visitor.visitBinaryExpression(this);
+    }
 }

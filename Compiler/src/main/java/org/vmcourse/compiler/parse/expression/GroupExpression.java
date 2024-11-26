@@ -15,4 +15,9 @@ public class GroupExpression extends ExpressionNode {
     public String toString() {
         return String.format("Grouping(%s)", expression);
     }
+
+    @Override
+    public <R> R accept(ExpressionVisitor<R> visitor) {
+        return visitor.visitGroupExpression(this);
+    }
 }
